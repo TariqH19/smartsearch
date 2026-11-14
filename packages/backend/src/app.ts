@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { type Express, type Router } from "express";
-import helmet from "helmet";
+import { default as helmet } from "helmet";
 import type { MongoConnection } from "./config/mongo.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { createAnalyticsRouter } from "./routes/analytics.js";
