@@ -1,6 +1,6 @@
 import cors from "cors";
 import express, { type Express, type Router } from "express";
-import helmet from "helmet";
+import * as helmetModule from "helmet";
 import type { MongoConnection } from "./config/mongo.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { createAnalyticsRouter } from "./routes/analytics.js";
@@ -47,7 +47,7 @@ export function createApp(options: AppOptions = {}): Express {
 
   const app = express();
 
-  app.use(helmet());
+  app.use(helmetModule.default());
   app.use(cors({ origin: corsOrigin }));
   app.use(express.json());
 
