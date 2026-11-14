@@ -75,7 +75,7 @@ export function createSearchRouter(options: SearchRouterOptions = {}) {
     }
 
     const parsed = parseSearchParams(req.query as Record<string, unknown>);
-    if (!parsed.ok) {
+    if (parsed.ok === false) {
       next(new ApiError(400, "Invalid search parameters", { errors: parsed.errors }));
       return;
     }
@@ -106,7 +106,7 @@ export function createSearchRouter(options: SearchRouterOptions = {}) {
     }
 
     const parsed = parseAdvancedSearchParams(req.query as Record<string, unknown>);
-    if (!parsed.ok) {
+    if (parsed.ok === false) {
       next(new ApiError(400, "Invalid search parameters", { errors: parsed.errors }));
       return;
     }
@@ -139,7 +139,7 @@ export function createSearchRouter(options: SearchRouterOptions = {}) {
     }
 
     const parsed = parseSuggestParams(req.query as Record<string, unknown>);
-    if (!parsed.ok) {
+    if (parsed.ok === false) {
       next(new ApiError(400, "Invalid suggest parameters", { errors: parsed.errors }));
       return;
     }

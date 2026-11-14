@@ -17,7 +17,7 @@ export function createAnalyticsRouter(options: AnalyticsRouterOptions = {}) {
     }
 
     const parsed = parseAnalyticsDays(req.query as Record<string, unknown>);
-    if (!parsed.ok) {
+    if (parsed.ok === false) {
       next(
         new ApiError(400, "Invalid analytics parameters", {
           errors: parsed.errors,
