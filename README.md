@@ -219,9 +219,10 @@ npm workspace lockfile and the `api/` function:
 The `public/` directory is an empty placeholder required by Vercel's `Other`
 framework preset. API requests are served by the function, not static files.
 
-Vercel discovers `api/[...path].ts` and routes `/api/*` requests through the
-Express application. Set these backend environment variables in the Vercel
-project:
+Vercel discovers the native ESM `api/[...path].mjs` function, which delegates
+to the compiled backend app in `packages/backend/dist`. It routes `/api/*`
+requests through Express. Set these backend environment variables in the
+Vercel project:
 
 - `MONGODB_URI` (required for database-backed endpoints)
 - `MONGODB_DB` (optional if the database name is included in `MONGODB_URI`)
