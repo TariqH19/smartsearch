@@ -1,6 +1,10 @@
+import { createRequire } from "node:module";
 import cors from "cors";
-import express, { type Express, type Router } from "express";
-import { default as helmet } from "helmet";
+import express, {
+  type Express,
+  type RequestHandler,
+  type Router,
+} from "express";
 import type { MongoConnection } from "./config/mongo.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { createAnalyticsRouter } from "./routes/analytics.js";
@@ -9,6 +13,8 @@ import { createSearchRouter } from "./routes/search.js";
 import type { AnalyticsService } from "./search/analytics-service.js";
 import type { AdvancedSearchService } from "./search/advanced-service.js";
 import type { SearchService } from "./search/service.js";
+
+const helmet = createRequire(import.meta.url)("helmet") as () => RequestHandler;
 
 export interface AppOptions {
   corsOrigin?: string | string[];
