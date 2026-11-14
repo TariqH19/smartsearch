@@ -14,6 +14,10 @@ This project is designed to show multiple MongoDB search patterns side-by-side i
 - Baseline vs Atlas comparison view
 - Public analytics dashboard with aggregated metrics only
 
+## Screenshots
+
+![App Screenshot](https://image-upload-example2.s3.eu-west-1.amazonaws.com/smartsearch.jpg)
+
 ## Technology stack
 
 - Frontend: React, TypeScript, Vite, Tailwind CSS
