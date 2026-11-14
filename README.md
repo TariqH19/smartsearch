@@ -214,8 +214,10 @@ npm workspace lockfile and the `api/` function:
 
 - **Root Directory:** `.` (repository root)
 - **Build Command:** `npm run build --workspace packages/backend`
-- **Output Directory:** leave unset; this is a serverless function deployment,
-  not a static output deployment
+- **Output Directory:** `public`
+
+The `public/` directory is an empty placeholder required by Vercel's `Other`
+framework preset. API requests are served by the function, not static files.
 
 Vercel discovers `api/[...path].ts` and routes `/api/*` requests through the
 Express application. Set these backend environment variables in the Vercel
