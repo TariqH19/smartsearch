@@ -220,9 +220,9 @@ The `public/` directory is an empty placeholder required by Vercel's `Other`
 framework preset. API requests are served by the function, not static files.
 
 Vercel discovers the native ESM `api/[...path].mjs` function, which delegates
-to the compiled backend app in `packages/backend/dist`. It routes `/api/*`
-requests through Express. Set these backend environment variables in the
-Vercel project:
+to the compiled backend app in `packages/backend/dist`. Explicit function
+entries cover the nested search and analytics paths. Set these backend
+environment variables in the Vercel project:
 
 - `MONGODB_URI` (required for database-backed endpoints)
 - `MONGODB_DB` (optional if the database name is included in `MONGODB_URI`)
@@ -232,6 +232,12 @@ Vercel project:
 
 `PORT` is only used by the local server; Vercel supplies the serverless request
 handler and does not need this variable.
+
+For the separately deployed frontend, set `VITE_API_URL` to
+`https://smartsearch-backend.vercel.app` in the frontend Vercel project's
+environment variables and redeploy it. Otherwise, the client uses relative
+`/api` URLs that resolve against the frontend domain. Add the frontend's
+production origin to the backend's `CORS_ORIGIN`.
 
 Before deploying publicly:
 
