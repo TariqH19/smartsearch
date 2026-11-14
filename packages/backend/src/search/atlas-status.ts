@@ -29,14 +29,18 @@ const DEFAULT_TTL_MS = 30_000;
  * ("unavailable") instead of 200 ("no matches"), which is the honest signal.
  */
 export function createIndexStatusProbe(
-  db: Db,
+  db: Db | (() => Db),
   options: IndexStatusProbeOptions = {}
 ): IndexStatusProbe {
   const ttlMs = options.ttlMs ?? DEFAULT_TTL_MS;
   const now = options.now ?? (() => Date.now());
+  const getDb = typeof db === "function" ? db : () => db;
 
   const defaultFetch = async (indexName: string): Promise<IndexStatus> => {
-    const indexes = await db.collection("documents").listSearchIndexes(indexName).toArray();
+    const indexes = await getDb()
+      .collection("documents")
+      .listSearchIndexes(indexName)
+      .toArray();
     const match = indexes.find((index) => (index as { name?: string }).name === indexName);
     if (!match) {
       return { exists: false, queryable: false };

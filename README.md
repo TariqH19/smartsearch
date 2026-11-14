@@ -207,6 +207,29 @@ Not part of the current scope:
 
 This project is a portfolio/demo application rather than a production SaaS system.
 
+### Vercel backend
+
+Deploy the backend from the repository root so Vercel can discover the root
+npm workspace lockfile and the `api/` function:
+
+- **Root Directory:** `.` (repository root)
+- **Build Command:** `npm run build --workspace packages/backend`
+- **Output Directory:** leave unset; this is a serverless function deployment,
+  not a static output deployment
+
+Vercel discovers `api/[...path].ts` and routes `/api/*` requests through the
+Express application. Set these backend environment variables in the Vercel
+project:
+
+- `MONGODB_URI` (required for database-backed endpoints)
+- `MONGODB_DB` (optional if the database name is included in `MONGODB_URI`)
+- `CORS_ORIGIN` (required in production; the deployed frontend origin or
+  comma-separated allowed origins)
+- `NODE_ENV=production`
+
+`PORT` is only used by the local server; Vercel supplies the serverless request
+handler and does not need this variable.
+
 Before deploying publicly:
 
 - Set `NODE_ENV=production`

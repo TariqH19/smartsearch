@@ -1,10 +1,6 @@
-import { createRequire } from "node:module";
 import cors from "cors";
-import express, {
-  type Express,
-  type RequestHandler,
-  type Router,
-} from "express";
+import express, { type Express, type Router } from "express";
+import helmet from "helmet";
 import type { MongoConnection } from "./config/mongo.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { createAnalyticsRouter } from "./routes/analytics.js";
@@ -14,11 +10,10 @@ import type { AnalyticsService } from "./search/analytics-service.js";
 import type { AdvancedSearchService } from "./search/advanced-service.js";
 import type { SearchService } from "./search/service.js";
 
-const helmet = createRequire(import.meta.url)("helmet") as () => RequestHandler;
-
 export interface AppOptions {
   corsOrigin?: string | string[];
   mongo?: MongoConnection;
+  connectMongoOnRequest?: boolean;
   search?: SearchService;
   advancedSearch?: AdvancedSearchService;
   analytics?: AnalyticsService;
@@ -32,6 +27,7 @@ export function createApp(options: AppOptions = {}): Express {
   const {
     corsOrigin = ["http://localhost:5173", "http://127.0.0.1:5173"],
     mongo,
+    connectMongoOnRequest = false,
     search,
     advancedSearch,
     analytics,
@@ -54,6 +50,25 @@ export function createApp(options: AppOptions = {}): Express {
   app.use(helmet());
   app.use(cors({ origin: corsOrigin }));
   app.use(express.json());
+
+  if (connectMongoOnRequest && mongo) {
+    app.use((req, _res, next) => {
+      if (
+        !mongo.isConfigured() ||
+        mongo.isConnected() ||
+        req.path === "/api/health" ||
+        req.path === "/health"
+      ) {
+        next();
+        return;
+      }
+
+      void mongo.connect().then(
+        () => next(),
+        (error: unknown) => next(error)
+      );
+    });
+  }
 
   app.use("/api", healthRouter);
   app.use("/api", analyticsRouter);

@@ -89,6 +89,38 @@ describe("GET /api/ready (readiness)", () => {
   });
 });
 
+describe("serverless MongoDB connection middleware", () => {
+  it("reuses an established connection and leaves liveness independent", async () => {
+    let connected = false;
+    let connectCalls = 0;
+    const mongo: MongoConnection = {
+      isConfigured: () => true,
+      isConnected: () => connected,
+      getState: () => (connected ? "connected" : "disconnected"),
+      getClient: () => null,
+      connect: async () => {
+        connectCalls += 1;
+        connected = true;
+        return "connected";
+      },
+      disconnect: async () => undefined,
+      ping: async () => connected,
+      status: async () => ({
+        state: connected ? "connected" : "disconnected",
+        configured: true,
+      }),
+    };
+    const app = createApp({ mongo, connectMongoOnRequest: true });
+
+    await request(app).get("/api/health").expect(200);
+    expect(connectCalls).toBe(0);
+
+    await request(app).get("/api/ready").expect(200);
+    await request(app).get("/api/ready").expect(200);
+    expect(connectCalls).toBe(1);
+  });
+});
+
 describe("createMongoConnection", () => {
   it("reports unconfigured when credentials are absent", async () => {
     const mongo = createMongoConnection({});
