@@ -207,6 +207,13 @@ Not part of the current scope:
 
 This project is a portfolio/demo application rather than a production SaaS system.
 
+### Live production deployments
+
+- **Frontend:** [smartsearch-frontend.vercel.app](https://smartsearch-frontend.vercel.app/)
+- **Backend API:** [smartsearch-backend.vercel.app](https://smartsearch-backend.vercel.app/)
+- **Health check:** [smartsearch-backend.vercel.app/api/health](https://smartsearch-backend.vercel.app/api/health)
+- **Readiness check:** [smartsearch-backend.vercel.app/api/ready](https://smartsearch-backend.vercel.app/api/ready)
+
 ### Vercel backend
 
 Deploy the backend from the repository root so Vercel can discover the root

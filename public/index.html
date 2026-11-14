@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SmartSearch API status and endpoint information."
+    />
+    <title>SmartSearch API</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family: system-ui, sans-serif;
+      }
+
+      body {
+        box-sizing: border-box;
+        margin: 0 auto;
+        max-width: 760px;
+        padding: 3rem 1.5rem;
+        line-height: 1.6;
+      }
+
+      h1 {
+        line-height: 1.2;
+      }
+
+      a {
+        color: #4388f5;
+      }
+
+      li {
+        margin: 0.4rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>SmartSearch API</h1>
+      <p>The backend API is running. Use the frontend or call an API endpoint:</p>
+      <ul>
+        <li><a href="https://smartsearch-frontend.vercel.app/">Open SmartSearch</a></li>
+        <li><a href="/api/health">Health check</a> — confirms the API is responding</li>
+        <li><a href="/api/ready">Readiness check</a> — checks database connectivity</li>
+        <li><code>GET /api/search?q=your-query</code></li>
+        <li><code>GET /api/search/advanced?q=your-query</code></li>
+        <li><code>GET /api/search/suggest?q=your-query</code></li>
+        <li><a href="/api/analytics/overview">Analytics overview</a></li>
+      </ul>
+    </main>
+  </body>
+</html>
