@@ -33,13 +33,24 @@ flowchart LR
   Browser --> Dashboard[Analytics dashboard]
 ```
 
+## Developer Resources
+
+- **Interactive API documentation:** [Local Swagger UI](http://localhost:4000/api/docs) after starting the backend, or [production Swagger UI](https://smartsearch-backend.vercel.app/api/docs).
+- **OpenAPI specification:** [Local JSON](http://localhost:4000/api/openapi.json) or [production JSON](https://smartsearch-backend.vercel.app/api/openapi.json).
+- **MongoDB implementation:** [MongoDB Architecture](docs/MONGODB_ARCHITECTURE.md) and [Atlas Search notes](docs/atlas-search.md).
+- **Backend source:** [packages/backend/src](packages/backend/src/), including routes, models, search repositories, and database helpers.
+- **Project setup:** [Local setup](#local-setup), [environment variables](#environment-variables), and [backend package scripts](packages/backend/package.json).
+
 ## Repository structure
 
 ```text
 smartsearch/
 ├── README.md
 ├── docs/
-│   └── atlas-search.md
+│   ├── atlas-search.md
+│   └── MONGODB_ARCHITECTURE.md
+├── api/
+│   └── Vercel serverless function entry points
 ├── package.json
 ├── .gitignore
 ├── packages/
@@ -226,10 +237,10 @@ npm workspace lockfile and the `api/` function:
 The `public/` directory is an empty placeholder required by Vercel's `Other`
 framework preset. API requests are served by the function, not static files.
 
-Vercel discovers the native ESM `api/[...path].mjs` function, which delegates
-to the compiled backend app in `packages/backend/dist`. Explicit function
-entries cover the nested search and analytics paths. Set these backend
-environment variables in the Vercel project:
+Vercel discovers native ESM functions that delegate to the compiled backend
+app in `packages/backend/dist`. Explicit function entries cover nested search,
+analytics, and Swagger UI asset paths. Set these backend environment variables
+in the Vercel project:
 
 - `MONGODB_URI` (required for database-backed endpoints)
 - `MONGODB_DB` (optional if the database name is included in `MONGODB_URI`)

@@ -8,6 +8,7 @@ import helmetImport from "helmet";
 import type { MongoConnection } from "./config/mongo.js";
 import { errorHandler, notFoundHandler } from "./middleware/error.js";
 import { createAnalyticsRouter } from "./routes/analytics.js";
+import { createDocsRouter } from "./routes/docs.js";
 import { createHealthRouter } from "./routes/health.js";
 import { createSearchRouter } from "./routes/search.js";
 import type { AnalyticsService } from "./search/analytics-service.js";
@@ -77,6 +78,7 @@ export function createApp(options: AppOptions = {}): Express {
   }
 
   app.use("/api", healthRouter);
+  app.use("/api", createDocsRouter());
   app.use("/api", analyticsRouter);
   app.use("/api", searchRouter);
 
