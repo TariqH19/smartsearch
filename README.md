@@ -244,7 +244,9 @@ framework preset. API requests are served by the function, not static files.
 Vercel discovers native ESM functions that delegate to the compiled backend
 app in `packages/backend/dist`. Explicit function entries cover nested search,
 analytics, and Swagger UI asset paths. Set these backend environment variables
-in the Vercel project:
+in the Vercel project. The root `vercel.json` includes `swagger-ui-dist` files
+in function bundles so the Swagger CSS and JavaScript are served as static
+assets rather than falling through to the HTML documentation page:
 
 - `MONGODB_URI` (required for database-backed endpoints)
 - `MONGODB_DB` (optional if the database name is included in `MONGODB_URI`)

@@ -53,4 +53,10 @@ it("serves Swagger UI configured to load the OpenAPI document", async () => {
   );
   expect(bundle.status).toBe(200);
   expect(bundle.headers["content-type"]).toMatch(/javascript/);
+  expect(bundle.text).not.toContain("<!DOCTYPE html>");
+
+  const stylesheet = await request(app).get("/api/docs/swagger-ui.css");
+  expect(stylesheet.status).toBe(200);
+  expect(stylesheet.headers["content-type"]).toMatch(/text\/css/);
+  expect(stylesheet.text).not.toContain("<!DOCTYPE html>");
 });
