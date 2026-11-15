@@ -10,7 +10,7 @@ export function createDocsRouter() {
   });
 
   router.use(
-    "/",
+    "/docs",
     swaggerUi.serve,
     swaggerUi.setup(openApiSpec, {
       customSiteTitle: "SmartSearch API Documentation",

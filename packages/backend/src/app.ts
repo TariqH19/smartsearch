@@ -58,6 +58,23 @@ export function createApp(options: AppOptions = {}): Express {
   app.use(cors({ origin: corsOrigin }));
   app.use(express.json());
 
+  app.get("/", (_req, res) => {
+    res.type("html").send(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SmartSearch API Documentation</title>
+    <style>html,body,iframe{width:100%;height:100%;margin:0;border:0}</style>
+  </head>
+  <body>
+    <iframe src="/api/docs/" title="SmartSearch API documentation">
+      <a href="/api/docs/">Open API documentation</a>
+    </iframe>
+  </body>
+</html>`);
+  });
+
   if (connectMongoOnRequest && mongo) {
     app.use((req, _res, next) => {
       if (

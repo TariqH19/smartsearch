@@ -4,6 +4,13 @@ import { createApp } from "../src/app.js";
 
 const request = supertest;
 
+it("serves the API documentation at the root path", async () => {
+  const response = await request(createApp()).get("/");
+
+  expect(response.status).toBe(200);
+  expect(response.text).toContain('src="/api/docs/"');
+});
+
 it("serves the OpenAPI specification with the mounted API base path", async () => {
   const response = await request(createApp()).get("/api/openapi.json");
 
